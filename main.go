@@ -41,7 +41,10 @@ func main() {
 		re := regexp.MustCompile(`\r?\n`)
 		TempPrice := strings.TrimSpace(e.Text)
 		TempPrice = re.ReplaceAllString(TempPrice, " ")
-		Prices = append(Prices, strings.Replace(TempPrice, " ", "", -1))
+		TempPrice = strings.Replace(TempPrice, " ", "", -1)
+		TempPrice = strings.Replace(TempPrice, "Compramos:$", "", -1)
+		TempPrice = strings.Replace(TempPrice, "Vendemos:$", "/", -1)
+		Prices = append(Prices, TempPrice)
 	})
 	c.OnResponse(func(r *colly.Response) {
 		//fmt.Printf(string(r.Body))
@@ -53,7 +56,7 @@ func main() {
 	c.OnScraped(func(r *colly.Response) {
 		fmt.Println("Scrapped finished")
 		for i, curval := range Titles {
-			fmt.Printf("%s : %s \r\n", curval, Prices[i])
+			fmt.Printf("%s: %s\r\n", curval, Prices[i])
 		}
 	})
 	c.OnError(func(r *colly.Response, err error) {
