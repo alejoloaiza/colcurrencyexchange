@@ -9,7 +9,15 @@ import (
 	"github.com/gocolly/colly"
 )
 
+type ExchangeData struct {
+	Name      string
+	Currency  string
+	PriceBuy  string
+	PriceSell string
+}
+
 func main() {
+	var generalData []ExchangeData
 
 	cNuti := colly.NewCollector(
 		colly.CacheDir("./cache"),
@@ -17,8 +25,6 @@ func main() {
 	var Titles []string
 	var Prices []string
 
-	//urlToVisit := fmt.Sprintf("http://usa.visa.com/support/consumer/travel-support/exchange-rate-calculator.html/?submitButton=Calculate+Exchange+Rates&fromCurr=%s&toCurr=%s&fee=0", myCardCurrency, myTransactionCurrency)
-	//fmt.Printf("Visiting " + urlToVisit)
 	cNutiurlToVisit := "http://nutifinanzas.com/"
 	cNuti.OnHTML("div.col-md-12.TituloDivisa", func(e *colly.HTMLElement) {
 		//fmt.Println(strings.TrimSpace(e.Text))
@@ -30,7 +36,7 @@ func main() {
 		TempPrice = re.ReplaceAllString(TempPrice, " ")
 		TempPrice = strings.Replace(TempPrice, " ", "", -1)
 		TempPrice = strings.Replace(TempPrice, "Compramos:$", "", -1)
-		TempPrice = strings.Replace(TempPrice, "Vendemos:$", "/", -1)
+		TempPrice = strings.Replace(TempPrice, "Vendemos:$", "@", -1)
 		Prices = append(Prices, TempPrice)
 	})
 	cNuti.OnResponse(func(r *colly.Response) {
@@ -42,7 +48,14 @@ func main() {
 	})
 	cNuti.OnScraped(func(r *colly.Response) {
 		for i, curval := range Titles {
-			fmt.Printf("%s: %s\r\n", curval, Prices[i])
+			var extData ExchangeData
+			extprice := strings.Split(Prices[i], "@")
+			extData.Name = "Nutifinanzas"
+			extData.Currency = curval
+			extData.PriceBuy = extprice[0]
+			extData.PriceSell = extprice[1]
+			fmt.Printf("%s: C: %s V: %s\r\n", extData.Currency, extData.PriceBuy, extData.PriceSell)
+			generalData = append(generalData, extData)
 		}
 	})
 	cNuti.OnError(func(r *colly.Response, err error) {
