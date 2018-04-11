@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"regexp"
+	"strconv"
 	"strings"
 
 	"github.com/gocolly/colly"
@@ -22,7 +23,7 @@ func main() {
 
 	//// TOMANDO LA INFO DE NUTIFINANZAS
 	cNuti := colly.NewCollector(
-		colly.CacheDir("./cache"),
+	//colly.CacheDir("./cache"),
 	)
 	var Titles1 []string
 	var Prices1 []string
@@ -155,16 +156,34 @@ func MergeCollideAndPrint() {
 	for i, curCurrency := range generalData {
 		curCurrency.Currency = Currency2Type.Closest(curCurrency.Currency)
 		generalData[i].Currency = curCurrency.Currency
-		fmt.Printf("%s > %s > C: %s V: %s\r\n", curCurrency.Name, curCurrency.Currency, curCurrency.PriceBuy, curCurrency.PriceSell)
+		//fmt.Printf("%s > %s > C: %s V: %s\r\n", curCurrency.Name, curCurrency.Currency, curCurrency.PriceBuy, curCurrency.PriceSell)
 	}
 
 	// MERGE COLLIDE
 	i := 0
-	j := 0
 	for i < len(generalData) {
+		j := 0
 		for j < len(generalData) {
 			if generalData[i].Name != generalData[j].Name && generalData[i].Currency == generalData[j].Currency {
-
+				tmpBuy1, _ := strconv.ParseFloat(generalData[i].PriceBuy, 64)
+				tmpBuy2, _ := strconv.ParseFloat(generalData[j].PriceBuy, 64)
+				fmt.Printf("Moneda: " + generalData[i].Currency + " \n")
+				if tmpBuy1 > tmpBuy2 {
+					fmt.Printf(" >Mejor precio de compra: " + generalData[i].Name + "\n")
+				} else if tmpBuy1 == tmpBuy2 {
+					fmt.Printf(" >Los precios son iguales \n")
+				} else {
+					fmt.Printf(" >Mejor precio de compra: " + generalData[j].Name + "\n")
+				}
+				tmpSell1, _ := strconv.ParseFloat(generalData[i].PriceSell, 64)
+				tmpSell2, _ := strconv.ParseFloat(generalData[j].PriceSell, 64)
+				if tmpSell1 < tmpSell2 {
+					fmt.Printf(" >Mejor precio de venta: " + generalData[i].Name + "\n")
+				} else if tmpSell1 == tmpSell2 {
+					fmt.Printf(" >Los precios son iguales \n")
+				} else {
+					fmt.Printf(" >Mejor precio de venta: " + generalData[j].Name + "\n")
+				}
 			}
 
 			j = j + 1
