@@ -18,6 +18,7 @@ type ExchangeData struct {
 func main() {
 	var generalData []ExchangeData
 
+	//// TOMANDO LA INFO DE NUTIFINANZAS
 	cNuti := colly.NewCollector(
 		colly.CacheDir("./cache"),
 	)
@@ -61,8 +62,8 @@ func main() {
 		fmt.Println("DETAILS: Request URL:", r.Request.URL, "failed with response:", r, "\nError:", err)
 	})
 	cNuti.Visit(cNutiurlToVisit)
-	cNuti.Wait()
 
+	//// TOMANDO LA INFO DE UNICAMBIOS
 	var Titles2 []string
 	var Prices2 []string
 	var Prices3 []string
@@ -118,6 +119,5 @@ func main() {
 		fmt.Println("DETAILS: Request URL:", r.Request.URL, "failed with response:", r, "\nError:", err)
 	})
 	cUni.Visit(cUniurlToVisit)
-	cUni.Wait()
 
 }
