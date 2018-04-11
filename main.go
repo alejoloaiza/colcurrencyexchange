@@ -123,9 +123,11 @@ func main() {
 	})
 	cUni.Visit(cUniurlToVisit)
 
-	MergeAndPrint()
+	MergeCollideAndPrint()
 }
-func MergeAndPrint() {
+func MergeCollideAndPrint() {
+
+	// NORMALIZATION
 	Currency1Stuff := []string{"Euro Baja EUR", "Colon Costarricense CRC", "Rupia India INR", "Quetzal GTQ", "Peso Uruguayo UYU", "Peso Dominicano DOP", "Peso Boliviano BOP", "Lira Turca TRY", "Florin Antillas AWG", "Dolar Nueva Zelanda NZD", "Corona Sueca SEK", "Corona Noruega NOK", "Colon CRC", "Bolivar Fuerte VEF", "Nuevo Sol PEN", "Peso Mexicano MXN", "Yen japones JPY", "Libra Esterlina GBP", "Yuan Chino CNY", "Peso Chileno CLP", "Franco Suizo CHF", "Dolar canadiense CAD", "US Dolar(Cheque Viajero)", "Dolar Americano USD", "Euro EUR 500 y 200", "Euro EUR", "Peso Argentino ARS", "Dolar Australiano AUD", "Real Brasil BRL"}
 	bagSizes := []int{2, 3, 4, 5, 6, 7, 8}
 	Currency1Type := closestmatch.New(Currency1Stuff, bagSizes)
@@ -148,12 +150,26 @@ func MergeAndPrint() {
 
 		//	fmt.Printf("%s > %s > C: %s V: %s\r\n", curCurrency.Name, curCurrency.Currency, curCurrency.PriceBuy, curCurrency.PriceSell)
 	}
-	//fmt.Println("==============================")
 	Currency2Stuff := []string{"Colon Costarricense CRC", "Rupia India INR", "Quetzal GTQ", "Peso Uruguayo UYU", "Peso Dominicano DOP", "Peso Boliviano BOP", "Lira Turca TRY", "Florin Antillas AWG", "Dolar Nueva Zelanda NZD", "Corona Sueca SEK", "Corona Noruega NOK", "Colon CRC", "Bolivar Fuerte VEF", "Nuevo Sol PEN", "Peso Mexicano MXN", "Yen japones JPY", "Libra Esterlina GBP", "Yuan Chino CNY", "Peso Chileno CLP", "Franco Suizo CHF", "Dolar canadiense CAD", "US Dolar(Cheque Viajero)", "Dolar Americano USD", "Euro EUR 500 y 200", "Euro EUR", "Peso Argentino ARS", "Dolar Australiano AUD", "Real Brasil BRL"}
 	Currency2Type := closestmatch.New(Currency2Stuff, bagSizes)
 	for i, curCurrency := range generalData {
 		curCurrency.Currency = Currency2Type.Closest(curCurrency.Currency)
 		generalData[i].Currency = curCurrency.Currency
 		fmt.Printf("%s > %s > C: %s V: %s\r\n", curCurrency.Name, curCurrency.Currency, curCurrency.PriceBuy, curCurrency.PriceSell)
+	}
+
+	// MERGE COLLIDE
+	i := 0
+	j := 0
+	for i < len(generalData) {
+		for j < len(generalData) {
+			if generalData[i].Name != generalData[j].Name && generalData[i].Currency == generalData[j].Currency {
+
+			}
+
+			j = j + 1
+
+		}
+		i = i + 1
 	}
 }
