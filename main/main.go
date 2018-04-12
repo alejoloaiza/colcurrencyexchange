@@ -4,7 +4,7 @@ import "currencyexchange/datahandling"
 import "currencyexchange/webscraping"
 
 func main() {
-	webscraping.webscraping1()
-	webscraping.webscraping2()
+	webscraping.Webscraping1()
+	webscraping.Webscraping2()
 	datahandling.MergeCollideAndPrint()
 }

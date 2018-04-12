@@ -9,7 +9,7 @@ import (
 	"github.com/gocolly/colly"
 )
 
-func webscraping1() {
+func Webscraping1() {
 	//// TOMANDO LA INFO DE NUTIFINANZAS
 	cNuti := colly.NewCollector(
 	//colly.CacheDir("./cache"),

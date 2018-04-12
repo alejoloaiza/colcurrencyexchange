@@ -8,7 +8,7 @@ import (
 	"github.com/gocolly/colly"
 )
 
-func webscraping2() {
+func Webscraping2() {
 	//// TOMANDO LA INFO DE UNICAMBIOS
 	var Titles2 []string
 	var Prices2 []string
