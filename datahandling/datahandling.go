@@ -51,7 +51,7 @@ func MergeCollideAndPrint() {
 		//fmt.Printf("%s > %s > C: %s V: %s\r\n", curCurrency.Name, curCurrency.Currency, curCurrency.PriceBuy, curCurrency.PriceSell)
 	}
 
-	// MERGE COLLIDE
+	// MERGE
 	i := 0
 	for i < len(GeneralData) {
 		j := 0
